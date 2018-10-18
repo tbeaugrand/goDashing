@@ -7,7 +7,7 @@ import (
 
 
 func main() {
-	alertedMonitors, err := datadog.GetALertMonitors()
+	alertedMonitors, err := datadog.GetAllAlertMonitors()
 
 	if err != nil {
 		fmt.Println("")
@@ -15,6 +15,6 @@ func main() {
 
 	for _, x := range alertedMonitors {
 
-		fmt.Println(x)
+		fmt.Println(x.GetName())
 	}
 }

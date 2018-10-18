@@ -3,8 +3,17 @@ package datadog
 import (
 	"github.com/zorkian/go-datadog-api"
 	"os"
+	"fmt"
 )
 
+
+type StageAlert string
+
+const (
+	Prod StageAlert = "prod"
+	Preprod StageAlert = "preprod"
+	
+)
 
 const (
 	ddApiKey = "DATADOG_API_KEY"
@@ -17,8 +26,7 @@ func getDatadogClient() *datadog.Client {
 }
 
 
-func GetALertMonitors() ([]datadog.Monitor, error)  {
-
+func getAllAlertMonitors() ([]datadog.Monitor, error)  {
 	monitors, err := getDatadogClient().GetMonitors()
 	if err != nil {
 		return nil, err
@@ -33,5 +41,12 @@ func GetALertMonitors() ([]datadog.Monitor, error)  {
 	}
 
 	return alertedMonitors, nil
-
 }
+
+
+func GetAllAlertMonitorsByType() {
+
+	getAllAlertMonitors()
+}
+
+
