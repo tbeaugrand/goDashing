@@ -8,6 +8,12 @@ import (
 	"github.com/zorkian/go-datadog-api"
 )
 
+
+type MonitorWidget struct {
+	MonitorNames []string
+}
+
+
 type StageAlert string
 
 const (
@@ -44,21 +50,21 @@ func getAllAlertMonitors() ([]datadog.Monitor, error) {
 	return alertedMonitors, nil
 }
 
-func GetAllAlertMonitorsByType(stage StageAlert) ([]datadog.Monitor, error) {
+func GetAllAlertMonitorsByType(stage StageAlert) (MonitorWidget, error) {
 	alertedMonitors, err := getAllAlertMonitors()
 
 	if err != nil {
 		log.Panic(err)
-		return nil, err
+		return MonitorWidget{}, err
 	}
 
-	byTypeMonitors := []datadog.Monitor{}
+	monitorNames := []string{}
 
 	for _, monitor := range alertedMonitors {
 		if strings.Contains(monitor.GetMessage(), string(stage)) {
-			byTypeMonitors = append(byTypeMonitors, monitor)
+			monitorNames = append(monitorNames, monitor.GetName())
 		}
 	}
 
-	return byTypeMonitors, nil
+	return MonitorWidget{ monitorNames}, nil
 }
