@@ -1,16 +1,18 @@
 package main
 
 import (
-	"github.com/tbeaugrand/goDashing/datadog"
 	"fmt"
+	"log"
+
+	"github.com/tbeaugrand/goDashing/datadog"
 )
 
-
 func main() {
-	alertedMonitors, err := datadog.GetAllAlertMonitors()
+	alertedMonitors, err := datadog.GetAllAlertMonitorsByType(datadog.Int)
 
 	if err != nil {
-		fmt.Println("")
+		log.Panic(err)
+		return
 	}
 
 	for _, x := range alertedMonitors {
